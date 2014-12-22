@@ -1,0 +1,36 @@
+#!/bin/bash
+
+cd $(dirname $0)
+dirname=$(pwd)
+
+AppTitle="OpsDB"
+AppRoot=$(dirname $dirname)
+AppScript=$AppRoot/var/www/webapps/opsdb/script/opsdb
+
+export MOJO_MODE="development"
+
+function usage() {
+  echo "Usage: $0 [start|restart|stop]"
+  exit 1
+}
+
+if [ $# -ne 1 ]
+ then
+  usage
+fi
+
+case "$1" in
+
+  start|restart)
+    echo "Starting: $AppTitle"
+    eval hypnotoad $AppScript
+    ;;
+  stop)
+    echo "Stopping $AppTitle"
+    eval hypnotoad -s $AppScript
+    ;;
+  *)
+    usage
+    ;;
+
+esac
